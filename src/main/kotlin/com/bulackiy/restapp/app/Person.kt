@@ -5,8 +5,6 @@ import java.time.LocalDate
 import javax.persistence.*
 import javax.persistence.JoinColumn
 
-
-
 @Entity
 @Table(name = "person")
 data class Person(
@@ -33,32 +31,37 @@ data class Person(
         @Column(name = "dateOfBirth")
         val dateOfBirth: LocalDate,
 
+        @JsonProperty("additionalPhones")
         @ManyToMany
         @JoinTable(name = "additionalPhones",
                 joinColumns = arrayOf(JoinColumn(name = "personPhoneId", referencedColumnName = "id")),
                 inverseJoinColumns = arrayOf(JoinColumn(name = "phonePersonId", referencedColumnName = "id")))
-        var additionalPhones: List<Phone> = mutableListOf(),
+        val additionalPhones: MutableList<Phone> = mutableListOf(),
 
+        @JsonProperty("additionalAddresses")
         @ManyToMany
         @JoinTable(name = "additionalAddresses",
                 joinColumns = arrayOf(JoinColumn(name = "personAddressId", referencedColumnName = "id")),
                 inverseJoinColumns = arrayOf(JoinColumn(name = "addressPersonId", referencedColumnName = "id")))
-        var additionalAddresses: List<Address> = mutableListOf(),
+        val additionalAddresses: MutableList<Address> = mutableListOf(),
 
         @ManyToMany
         @JoinTable(name = "additionalJobs",
                 joinColumns = arrayOf(JoinColumn(name = "personJobId", referencedColumnName = "id")),
                 inverseJoinColumns = arrayOf(JoinColumn(name = "addressJobId", referencedColumnName = "id")))
-        var additionalJobs: List<Job> = mutableListOf(),
+        val additionalJobs: MutableList<Job> = mutableListOf(),
 
+        @JsonProperty("mainPhone")
         @ManyToOne
         @JoinColumn(name = "phoneId")
         var mainPhone: Phone? = null,
 
+        @JsonProperty("mainAddress")
         @ManyToOne
         @JoinColumn(name = "addressId")
         var mainAddress: Address? = null,
 
+        @JsonProperty("mainJob")
         @ManyToOne
         @JoinColumn(name = "jobId")
         var mainJob: Job? = null

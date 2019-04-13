@@ -1,5 +1,6 @@
 package com.bulackiy.restapp.app
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import javax.persistence.*
 
@@ -17,9 +18,11 @@ data class Job(
         @Column(name = "description", length = 1000)
         val description: String,
 
+        @JsonIgnore
         @OneToMany(mappedBy = "mainJob")
-        var persons: List<Person> = mutableListOf(),
+        val persons: MutableList<Person> = mutableListOf(),
 
+        @JsonIgnore
         @ManyToMany(mappedBy = "additionalJobs")
-        var additionalPersons: List<Person> = mutableListOf()
+        val additionalPersons: MutableList<Person> = mutableListOf()
 )
